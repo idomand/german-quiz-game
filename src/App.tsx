@@ -1,12 +1,29 @@
 import React from "react";
-import "./App.css";
-import Test from "./Components/Test";
+import styles from "./App.module.css";
+import QuizButtons from "./Components/QuizButtons";
+import QuizOptions from "./Components/QuizOptions";
+
+import data from "./German-words-data.json";
+import GameContext from "./Util/GameContext";
 
 function App() {
+  console.log("data :>> ", data[45]);
+
   return (
-    <div className="App">
-      <Test />
-    </div>
+    <GameContext>
+      <div className={styles.app}>
+        <h1>Learn German</h1>
+        <QuizButtons />
+        <QuizOptions />
+        <div>
+          <p>hint</p>
+          <h3>word</h3>
+        </div>
+        <div>
+          <button>submit</button>
+        </div>
+      </div>
+    </GameContext>
   );
 }
 
