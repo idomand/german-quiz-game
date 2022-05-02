@@ -1,8 +1,7 @@
 import React from "react";
 import { useGame } from "../Util/GameContext";
-type Props = {};
 
-export default function QuizOptions({}: Props) {
+export default function QuizOptions() {
   const { isLoading } = useGame()!;
 
   console.log("isLoading :>> ", isLoading);
