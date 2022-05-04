@@ -1,29 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./App.module.css";
-import QuizButtons from "./Components/QuizButtons";
-import QuizOptions from "./Components/QuizOptions";
-
-import data from "./German-words-data.json";
-import GameContext from "./Util/GameContext";
+import QuestionCard from "./Components/QuestionCard";
+import { useGame, wordObjectInterface } from "./Util/GameContext";
 
 function App() {
-  console.log("data :>> ", data[45]);
+  const { wordsArray, isLoading, setIsLoading } = useGame()!;
+
+  const [score, setScore] = useState(0);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [gameOver, setGameOver] = useState(true);
+  const [question, setQuestion] = useState<wordObjectInterface | null>(null);
+
+  async function startQuiz() {
+    setIsLoading(true);
+    setGameOver(false);
+    setScore(0);
+    setQuestionNumber(0);
+
+    if (!wordsArray) return;
+
+    setQuestion(wordsArray[questionNumber]);
+  }
 
   return (
-    <GameContext>
-      <div className={styles.app}>
-        <h1>Learn German</h1>
-        <QuizButtons />
-        <QuizOptions />
+    <div className={styles.app}>
+      {gameOver && <button onClick={startQuiz}>start game</button>}
+      {!gameOver && <div className="score">score:{score}</div>}
+      {!gameOver && question && questionNumber < 9 && (
         <div>
-          <p>hint</p>
-          <h3>word</h3>
+          main stuff
+          <QuestionCard
+            Artikel={question?.Artikel}
+            Meaning={question?.Meaning}
+            Plural={question?.Plural}
+            word={question?.word}
+          />
         </div>
-        <div>
-          <button>submit</button>
-        </div>
-      </div>
-    </GameContext>
+      )}
+    </div>
   );
 }
 
