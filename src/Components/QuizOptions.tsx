@@ -1,21 +1,17 @@
 import React from "react";
-import { useGame } from "../Util/GameContext";
+import styles from "./QuizOptionsStyle.module.css";
 
 export default function QuizOptions() {
-  const { isLoading } = useGame()!;
-
-  console.log("isLoading :>> ", isLoading);
   return (
-    <div>
-      QuizOptions
+    <div className={styles.quizOptionsWrapper}>
       <div>
-        <button>Der</button>
+        <button className={styles.DerButton}>Der</button>
       </div>
       <div>
-        <button>Die</button>
+        <button className={styles.DieButton}>Die</button>
       </div>
       <div>
-        <button>Das</button>
+        <button className={styles.DasButton}>Das</button>
       </div>
     </div>
   );

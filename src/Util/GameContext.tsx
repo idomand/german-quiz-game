@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+import data from "../German-words-data.json";
 
 interface GameContextInterface {
-  wordsArray: wordObjectInterface[];
+  wordsArray: wordObjectInterface[] | null;
   setWordsArray: any;
-  wordObject: wordObjectInterface | null;
-  setWordObject: any;
   isLoading: boolean;
   setIsLoading: any;
 }
 
-interface wordObjectInterface {
+export interface wordObjectInterface {
   Artikel: string;
   Meaning: string;
   Plural: string;
@@ -25,19 +24,23 @@ export function useGame() {
 }
 
 export default function GameContext({ children }: any) {
-  const [wordsArray, setWordsArray] = useState([]);
-  const [wordObject, setWordObject] = useState<wordObjectInterface | null>(
+  const [wordsArray, setWordsArray] = useState<wordObjectInterface[] | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    let randomNumber = Math.floor(Math.random() * 1000);
+    let newArray = [];
+    for (let i = randomNumber; i < randomNumber + 10; i++) {
+      newArray.push(data[i]);
+    }
+    setWordsArray(newArray);
+  }, []);
 
   const value = {
     wordsArray,
     setWordsArray,
-    wordObject,
-    setWordObject,
     isLoading,
     setIsLoading,
   };
