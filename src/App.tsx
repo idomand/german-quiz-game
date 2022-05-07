@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./App.module.css";
 import QuestionCard from "./Components/QuestionCard";
 import { useGame, wordObjectInterface } from "./Util/GameContext";
 
 function App() {
-  const { wordsArray, isLoading, setIsLoading } = useGame()!;
-
+  const { wordsArray } = useGame()!;
   const [score, setScore] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [gameOver, setGameOver] = useState(true);
   const [question, setQuestion] = useState<wordObjectInterface | null>(null);
 
   async function startQuiz() {
-    setIsLoading(true);
     setGameOver(false);
     setScore(0);
     setQuestionNumber(0);
-
     if (!wordsArray) return;
-
     setQuestion(wordsArray[questionNumber]);
+  }
+
+  function nextQuestionFunc(answer: string) {
+    if (answer === "right") {
+      setScore((prv) => prv + 1);
+    }
+    if (!wordsArray) return;
+    setQuestion(wordsArray[questionNumber + 1]);
+    setQuestionNumber((prv) => prv + 1);
   }
 
   return (
@@ -28,8 +33,8 @@ function App() {
       {!gameOver && <div className="score">score:{score}</div>}
       {!gameOver && question && questionNumber < 9 && (
         <div>
-          main stuff
           <QuestionCard
+            nextQuestionFunc={nextQuestionFunc}
             Artikel={question?.Artikel}
             Meaning={question?.Meaning}
             Plural={question?.Plural}
