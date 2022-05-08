@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./App.module.css";
+import "./App.scss";
 import QuestionCard from "./Components/QuestionCard";
 import { useGame, wordObjectInterface } from "./Util/GameContext";
 
@@ -28,7 +28,7 @@ function App() {
   }
 
   return (
-    <div className={styles.app}>
+    <div className="app">
       {gameOver && <button onClick={startQuiz}>start game</button>}
       {!gameOver && <div className="score">score:{score}</div>}
       {!gameOver && question && questionNumber < 9 && (

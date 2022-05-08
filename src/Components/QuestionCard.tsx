@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { wordObjectInterface } from "../Util/GameContext";
-import "./QuestionCardStyle.css";
+import "./QuestionCard.scss";
 
 interface QuestionCardInterface extends wordObjectInterface {
   nextQuestionFunc: any;
