@@ -1,49 +1,119 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import data from "./German-words-data.json";
+import { wordObjectInterface } from "./Util/wordObjectInterface";
 import "./App.scss";
 import QuestionCard from "./Components/QuestionCard";
-import { useGame, wordObjectInterface } from "./Util/GameContext";
 
-function App() {
-  const { wordsArray } = useGame()!;
+export default function App() {
+  const [isGameOver, setIsGameOver] = useState(true);
+  const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [score, setScore] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [gameOver, setGameOver] = useState(true);
+  const [questionsArray, setQuestionsArray] = useState<
+    wordObjectInterface[] | null
+  >(null);
   const [question, setQuestion] = useState<wordObjectInterface | null>(null);
 
-  async function startQuiz() {
-    setGameOver(false);
+  function startNewGame() {
+    setScore(0);
+  }
+
+  function startGameFunc(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (questionsArray == null) return;
+
+    setIsGameOver(false);
     setScore(0);
     setQuestionNumber(0);
-    if (!wordsArray) return;
-    setQuestion(wordsArray[questionNumber]);
+    getQuestions();
+    setQuestion(questionsArray[questionNumber]);
   }
 
-  function nextQuestionFunc(answer: string) {
-    if (answer === "right") {
+  useEffect(() => {
+    getQuestions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numberOfQuestions]);
+
+  async function getQuestions() {
+    let randomNumber = Math.floor(Math.random() * 1000);
+    let newArray = [];
+    for (let i = randomNumber; i < randomNumber + numberOfQuestions; i++) {
+      newArray.push(data[i]);
+    }
+    setQuestionsArray(newArray);
+  }
+
+  function getNextQuestion() {
+    if (questionNumber + 1 === numberOfQuestions) {
+      setIsGameOver(true);
+    } else {
+      setQuestionNumber((prv) => prv + 1);
+      if (!questionsArray) return;
+      setQuestion(questionsArray[questionNumber]);
+    }
+  }
+
+  function updateScore(userAnswer: string) {
+    if (userAnswer === "right") {
       setScore((prv) => prv + 1);
     }
-    if (!wordsArray) return;
-    setQuestion(wordsArray[questionNumber + 1]);
-    setQuestionNumber((prv) => prv + 1);
   }
 
-  return (
-    <div className="app">
-      {gameOver && <button onClick={startQuiz}>start game</button>}
-      {!gameOver && <div className="score">score:{score}</div>}
-      {!gameOver && question && questionNumber < 9 && (
-        <div>
+  if (isGameOver && score === 0) {
+    return (
+      <main className="app">
+        <section className="preGameScreen">
+          <form onSubmit={startGameFunc}>
+            <label htmlFor="numberOfQuestions">
+              Pick Number Of Questions:
+              <input
+                id="umberOfQuestions"
+                min={0}
+                max={20}
+                type="number"
+                value={numberOfQuestions}
+                onChange={(e) => {
+                  setNumberOfQuestions(+e.target.value);
+                }}
+              />
+            </label>
+            <button disabled={!numberOfQuestions}>start Game</button>
+          </form>
+        </section>
+      </main>
+    );
+  } else if (isGameOver && score > 0) {
+    return (
+      <div>
+        <h1>game over</h1>
+        <h5>your score is {score}</h5>
+
+        <p>Would You Like To Play Again?</p>
+        <button onClick={startNewGame}>New Game</button>
+      </div>
+    );
+  } else {
+    return (
+      <main className="app">
+        <div className="score">
+          <div>Score: {score}</div>
+          <div>
+            Question: {questionNumber + 1} /{numberOfQuestions}
+          </div>
+        </div>
+
+        {!isGameOver && question && questionNumber < numberOfQuestions && (
           <QuestionCard
-            nextQuestionFunc={nextQuestionFunc}
+            getNextQuestion={getNextQuestion}
+            updateScore={updateScore}
             Artikel={question?.Artikel}
             Meaning={question?.Meaning}
             Plural={question?.Plural}
             word={question?.word}
           />
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </main>
+    );
+  }
 }
-
-export default App;

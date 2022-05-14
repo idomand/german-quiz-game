@@ -1,6 +1,4 @@
 .app {
-  background-color: white;
-  border: solid red;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -9,4 +7,16 @@
 
 h1 {
   margin: 0;
+}
+.preGameScreen {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    margin-top: 5px;
+  }
 }

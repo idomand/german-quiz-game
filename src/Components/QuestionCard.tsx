@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { wordObjectInterface } from "../Util/GameContext";
+import { wordObjectInterface } from "../Util/wordObjectInterface";
 import "./QuestionCard.scss";
 
 interface QuestionCardInterface extends wordObjectInterface {
-  nextQuestionFunc: any;
+  getNextQuestion: any;
+  updateScore: any;
 }
 
 export default function QuestionCard({
@@ -11,109 +12,92 @@ export default function QuestionCard({
   Meaning,
   Plural,
   word,
-  nextQuestionFunc,
+  getNextQuestion,
+  updateScore,
 }: QuestionCardInterface) {
   const [userAnswer, setUserAnswer] = useState("");
   const [isCorrect, setIsCorrect] = useState("");
+  const [correctAnswer, setCorrectAnswer] = useState("");
   const [showHint, setShowHint] = useState(false);
-  const [showAnswer, setShowAnswer] = useState(false);
-  const [showNextQuestionButton, setShowNextQuestionButton] = useState(false);
 
-  function submitAnswer() {
-    if (userAnswer === "") return;
-    setShowNextQuestionButton(true);
-    if (userAnswer === Artikel) {
-      setIsCorrect("right");
-    } else {
-      setIsCorrect("wrong");
-    }
-  }
-
-  function getNextQuestion() {
-    nextQuestionFunc(isCorrect);
+  function getNextQuestionFunc() {
     setUserAnswer("");
     setIsCorrect("");
-    setShowAnswer(false);
-    setShowNextQuestionButton(false);
+    setCorrectAnswer("");
     setShowHint(false);
+    getNextQuestion();
+  }
+
+  function checkAnswer(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setCorrectAnswer(Artikel);
+    if (userAnswer === Artikel) {
+      updateScore("right");
+      setIsCorrect("true");
+    } else {
+      updateScore("wrong");
+      setIsCorrect("false");
+    }
   }
 
   return (
     <div>
-      <div className="quizOptionsWrapper">
+      <div className="WordWrapper">
+        <h2>
+          The word is: <u>{word}</u>
+        </h2>
+        <h4>The plural is {Plural} </h4>
+      </div>
+
+      <form onSubmit={checkAnswer}>
         <button
           onClick={() => {
             setUserAnswer("Der");
           }}
-          className={`quizButton DerButton ${userAnswer}`}
+          className={`quizButton DerButton ${userAnswer} ${
+            correctAnswer === "Der" ? "rightAnswer" : ""
+          } `}
         >
           Der
         </button>
-
         <button
           onClick={() => {
             setUserAnswer("Die");
           }}
-          className={`quizButton DieButton ${userAnswer}`}
+          className={`quizButton DieButton ${userAnswer} ${
+            correctAnswer === "Die" ? "rightAnswer" : ""
+          }`}
         >
           Die
         </button>
-
         <button
           onClick={() => {
             setUserAnswer("Das");
           }}
-          className={`quizButton DasButton ${userAnswer}`}
+          className={`quizButton DasButton ${userAnswer} ${
+            correctAnswer === "Das" ? "rightAnswer" : ""
+          }`}
         >
           Das
         </button>
+      </form>
+
+      <div className="hintWrapper">
+        <button
+          onClick={() => {
+            setShowHint((prv) => !prv);
+          }}
+        >
+          Show Hint
+        </button>
+        {showHint ? <span className="hintShow">{Meaning}</span> : <span></span>}
       </div>
 
-      <div className="quizWordWrapper">
-        <div className="hintWrapper">
-          <div>
-            <button
-              onClick={() => {
-                setShowHint((prv) => !prv);
-              }}
-            >
-              Show Hint
-            </button>
-            {showHint && <span className="hintShow">{Meaning}</span>}
-          </div>
-
-          <br />
-          <div>
-            <button
-              onClick={() => {
-                setShowAnswer((prv) => !prv);
-              }}
-            >
-              Show Answer
-            </button>
-            {showAnswer && <span>{Artikel}</span>}
-          </div>
+      {isCorrect && (
+        <div className="nextQuestionWrapper">
+          <button onClick={getNextQuestionFunc}>Next Question</button>
         </div>
-        <h3>{word}</h3>
-      </div>
-      <div className="answerDivWrapper">
-        <div>user answer: {userAnswer}</div>
-        <div>
-          <button disabled={!userAnswer} onClick={submitAnswer}>
-            submit
-          </button>
-        </div>
-
-        {isCorrect === "right" && <div>you are correct</div>}
-        {isCorrect === "wrong" && (
-          <div>WRONG! the correct answer is {Artikel}</div>
-        )}
-        <div>
-          {showNextQuestionButton && (
-            <button onClick={getNextQuestion}>next Question</button>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
