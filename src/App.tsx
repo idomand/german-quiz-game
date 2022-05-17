@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import data from "./German-words-data.json";
-import { wordObjectInterface } from "./Util/wordObjectInterface";
+import {
+  wordObjectInterface,
+  DummyWordObject,
+} from "./Util/wordObjectInterface";
 import "./App.scss";
 import QuestionCard from "./Components/QuestionCard";
 
@@ -9,10 +12,12 @@ export default function App() {
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [score, setScore] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [questionsArray, setQuestionsArray] = useState<
-    wordObjectInterface[] | null
-  >(null);
-  const [question, setQuestion] = useState<wordObjectInterface | null>(null);
+  const [questionsArray, setQuestionsArray] = useState<wordObjectInterface[]>([
+    DummyWordObject,
+  ]);
+
+  const [question, setQuestion] =
+    useState<wordObjectInterface>(DummyWordObject);
 
   function startNewGame() {
     setScore(0);
@@ -20,9 +25,6 @@ export default function App() {
 
   function startGameFunc(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (questionsArray == null) return;
-
     setIsGameOver(false);
     setScore(0);
     setQuestionNumber(0);
@@ -49,7 +51,6 @@ export default function App() {
       setIsGameOver(true);
     } else {
       setQuestionNumber((prv) => prv + 1);
-      if (!questionsArray) return;
       setQuestion(questionsArray[questionNumber]);
     }
   }
