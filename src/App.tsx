@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import data from "./German-words-data.json";
-import {
-  wordObjectInterface,
-  DummyWordObject,
-} from "./Util/wordObjectInterface";
+import { wordInterface, DummyWordObject } from "./Util/wordObjectInterface";
 import "./App.scss";
 import QuestionCard from "./Components/QuestionCard";
 
@@ -12,12 +9,11 @@ export default function App() {
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [score, setScore] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [questionsArray, setQuestionsArray] = useState<wordObjectInterface[]>([
+  const [questionsArray, setQuestionsArray] = useState<wordInterface[]>([
     DummyWordObject,
   ]);
 
-  const [question, setQuestion] =
-    useState<wordObjectInterface>(DummyWordObject);
+  const [question, setQuestion] = useState<wordInterface>(DummyWordObject);
 
   function startNewGame() {
     setScore(0);

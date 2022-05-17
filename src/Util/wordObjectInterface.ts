@@ -1,4 +1,4 @@
-export interface wordObjectInterface {
+export interface wordInterface {
   Artikel: string;
   Meaning: string;
   Plural: string;

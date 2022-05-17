@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { wordObjectInterface } from "../Util/wordObjectInterface";
+import { wordInterface } from "../Util/wordObjectInterface";
 import "./QuestionCard.scss";
 
-interface QuestionCardInterface extends wordObjectInterface {
+interface QuestionCardInterface extends wordInterface {
   getNextQuestion: any;
   updateScore: any;
 }
