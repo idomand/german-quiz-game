@@ -1,0 +1,12 @@
+.preGameScreen {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  button {
+    margin-top: 5px;
+  }
+}

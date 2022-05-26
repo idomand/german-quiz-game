@@ -67,13 +67,13 @@ $bg: hsl(323 21% 16%);
 }
 
 .hintWrapper {
-  border: solid $blue;
+  // border: solid $blue;
   margin: 10px;
   padding: 10px;
   display: flex;
   justify-content: space-around;
   &:hover {
-    background-color: aqua;
+    // background-color: aqua;
   }
 }
 .rightAnswer {
