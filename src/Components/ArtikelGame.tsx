@@ -59,26 +59,24 @@ export default function ArtikelGame() {
 
   if (isGameOver && score === 0) {
     return (
-      <main>
-        <section className="preGameScreen">
-          <form onSubmit={startGameFunc}>
-            <label htmlFor="numberOfQuestions">
-              Pick Number Of Questions:
-              <input
-                id="umberOfQuestions"
-                min={0}
-                max={20}
-                type="number"
-                value={numberOfQuestions}
-                onChange={(e) => {
-                  setNumberOfQuestions(+e.target.value);
-                }}
-              />
-            </label>
-            <button disabled={!numberOfQuestions}>start Game</button>
-          </form>
-        </section>
-      </main>
+      <section className="preGameScreen">
+        <form onSubmit={startGameFunc}>
+          <label htmlFor="numberOfQuestions">
+            Pick Number Of Questions:
+            <input
+              id="umberOfQuestions"
+              min={0}
+              max={20}
+              type="number"
+              value={numberOfQuestions}
+              onChange={(e) => {
+                setNumberOfQuestions(+e.target.value);
+              }}
+            />
+          </label>
+          <button disabled={!numberOfQuestions}>start Game</button>
+        </form>
+      </section>
     );
   } else if (isGameOver && score > 0) {
     return (

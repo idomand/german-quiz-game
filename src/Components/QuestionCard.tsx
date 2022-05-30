@@ -55,7 +55,7 @@ export default function QuestionCard({
             setUserAnswer("Der");
           }}
           className={`quizButton DerButton ${userAnswer} ${
-            correctAnswer === "Der" ? "rightAnswer" : ""
+            correctAnswer === "Der" ? "rightAnswerDer" : ""
           } `}
         >
           Der
@@ -65,7 +65,7 @@ export default function QuestionCard({
             setUserAnswer("Die");
           }}
           className={`quizButton DieButton ${userAnswer} ${
-            correctAnswer === "Die" ? "rightAnswer" : ""
+            correctAnswer === "Die" ? "rightAnswerDie" : ""
           }`}
         >
           Die
@@ -75,7 +75,7 @@ export default function QuestionCard({
             setUserAnswer("Das");
           }}
           className={`quizButton DasButton ${userAnswer} ${
-            correctAnswer === "Das" ? "rightAnswer" : ""
+            correctAnswer === "Das" ? "rightAnswerDas" : ""
           }`}
         >
           Das
