@@ -1,8 +1,4 @@
-$red: hsl(0, 100%, 50%);
-$green: hsl(120, 100%, 25%);
-$blue: hsl(240, 100%, 50%);
-$neon: hsl(317 100% 54%);
-$bg: hsl(323 21% 16%);
+@use "../Styles/" as *;
 
 .WordWrapper {
   display: flex;
@@ -67,14 +63,10 @@ $bg: hsl(323 21% 16%);
 }
 
 .hintWrapper {
-  // border: solid $blue;
   margin: 10px;
   padding: 10px;
   display: flex;
   justify-content: space-around;
-  &:hover {
-    // background-color: aqua;
-  }
 }
 .rightAnswer {
   box-shadow: 0 0 2em 0.2em $neon;

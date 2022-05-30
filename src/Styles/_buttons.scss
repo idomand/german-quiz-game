@@ -1,0 +1,10 @@
+@use "./variables" as *;
+
+.basicButton {
+  border-radius: 5px;
+  background-color: $secondary-color;
+  transition: 0.3s;
+  &:hover {
+    background-color: aqua;
+  }
+}
